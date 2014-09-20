@@ -1,0 +1,70 @@
+# Statusbar conky
+# By Anomitee
+
+# This will most likely *NOT* work well unless you edit some items
+
+background yes
+border_width 1
+cpu_avg_samples 2
+default_color white
+default_outline_color white
+default_shade_color white
+double_buffer yes
+draw_borders no
+draw_graph_borders yes
+draw_outline no
+draw_shades no
+use_xft yes
+xftfont Inconsolata:size=12
+net_avg_samples 2
+no_buffers yes
+out_to_console no
+out_to_stderr no
+extra_newline no
+stippled_borders 0
+uppercase no
+use_spacer left
+show_graph_scale no
+show_graph_range no
+
+# Conky window settings
+own_window yes
+own_window_class Conky
+own_window_transparent no
+own_window_type desktop
+own_window_hints below
+own_window_argb_visual yes
+own_window_argb_value 25
+own_window_colour black # Watch the spelling of colour!
+
+# Positioning and alignment
+alignment tl
+gap_x 5
+gap_y 4
+
+minimum_size 1440 16 # Adjust to fit your monitor
+update_interval 0.5
+pad_percents 2
+
+TEXT
+|\
+ ${time %R %d %b} |\
+ CPU: $cpu% | RAM: $mem/$memmax |\
+ /: ${fs_used /}/${fs_size /} (${fs_used_perc /}%) \
+ /home: ${fs_used /home}/${fs_size /home} |\
+# WiFi download graph. 3000 appears to be ~30.00 kbps
+# Change the interface name and scale to fit your setup
+ WiFi: ${downspeedgraph wlp0s26f7u3 12,50 ffffff ffffff 3000}\
+ ${downspeed wlp0s26f7u3} / ${upspeed wlp0s26f7u3} |\
+#
+# mpd code - these lines cannot be commented out separately!
+#
+ ${if_mpd_playing}\
+${if_match ${execi 5 expr length "`mpc --format '%album% - %title%' | \
+head -n 1`"} > 35}\
+${scroll 35 3 ${mpd_album} - ${mpd_title}}\
+${else}${mpd_album} - ${mpd_title}${endif}\
+${endif}\
+#
+# end of mpd code
+#
